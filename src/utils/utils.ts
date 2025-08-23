@@ -31,6 +31,8 @@ export const makeRow = (id: string): Row => {
     id,
     ip: "",
     country: "",
+    flag: "",
+    timezone: "",
     status: RowStatus.IDLE,
     error: "",
     requestToken: 0,

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { isIP, makeRow, RowStatus, type Row } from "../../../utils/utils";
 import { IP_LOOKUP_CONSTANTS } from "../ip-lookup-panel.const";
 import { fetchCountry } from "../../../utils/api";
@@ -6,6 +6,7 @@ import { fetchCountry } from "../../../utils/api";
 export const useIpLookup = () => {
   const [rows, setRows] = useState<Row[]>([makeRow("1")]);
   const controllers = useRef(new Map<string, AbortController>());
+  const refListElement = useRef<HTMLOListElement>(null);
 
   // Generate a unique id for each row
   const nextId = useMemo(
@@ -14,10 +15,9 @@ export const useIpLookup = () => {
   );
 
   // Add a new row
-  const handleAdd = useCallback(
-    () => setRows((currentRows: Row[]) => [...currentRows, makeRow(nextId)]),
-    [nextId]
-  );
+  const handleAdd = useCallback(() => {
+    setRows((currentRows: Row[]) => [...currentRows, makeRow(nextId)]);
+  }, [nextId]);
 
   // Update a row
   const updateRow = useCallback(
@@ -48,13 +48,61 @@ export const useIpLookup = () => {
     []
   );
 
+  const fetchCountryByIp = useCallback(
+    async (
+      ip: string,
+      token: number,
+      rowId: string,
+      abortController: AbortController
+    ) => {
+      try {
+        const { country, flag, timezone } = await fetchCountry(
+          ip,
+          abortController.signal
+        );
+        // Only apply if token still current
+        setRows((currentRows: Row[]) =>
+          currentRows.map((currentRow) =>
+            currentRow.id === rowId && currentRow.requestToken === token
+              ? { ...currentRow, country, flag, timezone, status: RowStatus.OK }
+              : currentRow
+          )
+        );
+      } catch (error: unknown) {
+        if (abortController.signal.aborted) return;
+
+        setRows((currentRows: Row[]) =>
+          currentRows.map((currentRow) =>
+            currentRow.id === rowId && currentRow.requestToken === token
+              ? {
+                  ...currentRow,
+                  status: RowStatus.ERROR,
+                  error:
+                    error instanceof Error
+                      ? error.message
+                      : IP_LOOKUP_CONSTANTS.LOOKUP_FAILED_ERROR,
+                }
+              : currentRow
+          )
+        );
+      }
+    },
+    []
+  );
+
   // Start lookup
   const startLookup = useCallback(
     async (row: Row) => {
       const ip = row.ip.trim();
 
       if (!ip) {
-        setRows([makeRow(nextId)]);
+        updateRow(row.id, {
+          status: RowStatus.IDLE,
+          error: "",
+          country: "",
+          flag: "",
+          timezone: "",
+        });
         return;
       }
 
@@ -69,8 +117,8 @@ export const useIpLookup = () => {
       // Abort any in-flight request for this row
       const prev = controllers.current.get(row.id);
       if (prev) prev.abort();
-      const ac = new AbortController();
-      controllers.current.set(row.id, ac);
+      const abortController = new AbortController();
+      controllers.current.set(row.id, abortController);
 
       // Token to prevent race conditions
       const token = row.requestToken + 1;
@@ -80,36 +128,16 @@ export const useIpLookup = () => {
         requestToken: token,
       });
 
-      try {
-        const { country, flag, timezone } = await fetchCountry(ip, ac.signal);
-        // Only apply if token still current
-        setRows((currentRows: Row[]) =>
-          currentRows.map((currentRow) =>
-            currentRow.id === row.id && currentRow.requestToken === token
-              ? { ...currentRow, country, flag, timezone, status: RowStatus.OK }
-              : currentRow
-          )
-        );
-      } catch (error: unknown) {
-        if (ac.signal.aborted) return;
-        setRows((currentRows: Row[]) =>
-          currentRows.map((currentRow) =>
-            currentRow.id === row.id && currentRow.requestToken === token
-              ? {
-                  ...currentRow,
-                  status: RowStatus.ERROR,
-                  error:
-                    error instanceof Error
-                      ? error.message
-                      : IP_LOOKUP_CONSTANTS.LOOKUP_FAILED_ERROR,
-                }
-              : currentRow
-          )
-        );
-      }
+      await fetchCountryByIp(ip, token, row.id, abortController);
     },
-    [updateRow, nextId]
+    [updateRow, fetchCountryByIp]
   );
+  useEffect(() => {
+    refListElement.current?.scrollTo({
+      top: refListElement.current?.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [rows]);
 
   return {
     rows,
@@ -118,5 +146,6 @@ export const useIpLookup = () => {
     handleRemove,
     handleKeydown,
     startLookup,
+    refListElement,
   };
 };

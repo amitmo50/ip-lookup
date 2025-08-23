@@ -14,6 +14,7 @@ export const IpLookupPanel = () => {
     handleRemove,
     handleKeydown,
     startLookup,
+    refListElement,
   } = useIpLookup();
 
   return (
@@ -30,7 +31,10 @@ export const IpLookupPanel = () => {
 
           {/* Rows */}
           <div className="w-[90%] flex-1 min-h-0 mb-[24px]">
-            <ol className="flex flex-col items-center justify-start gap-[12px] overflow-y-auto max-h-full h-full">
+            <ol
+              className="flex flex-col items-center justify-start gap-[12px] overflow-y-auto max-h-full h-full"
+              ref={refListElement}
+            >
               {rows.map((row, idx) => (
                 <IpLookupRow
                   key={row.id}

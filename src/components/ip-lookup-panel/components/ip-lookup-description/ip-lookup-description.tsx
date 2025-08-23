@@ -8,7 +8,7 @@ export const IpLookupDescription = ({
 }: IpLookupDescriptionProps) => {
   return (
     <div className="flex flex-col items-start justify-center w-[90%] py-[4px] gap-[12px]">
-      <p className="text-[16px] text-[#363636]">
+      <p className="text-[18px] text-[#363636] text-left">
         {IP_LOOKUP_CONSTANTS.DESCRIPTION}
       </p>
       <Button
