@@ -1,6 +1,10 @@
 # IP Lookup Tool
 
 A React-based application for looking up geographical information of IP addresses including country, flag, and local timezone.
+<img width="1419" height="428" alt="Screenshot 2025-08-23 at 20 02 02" src="https://github.com/user-attachments/assets/10d71996-abfb-465e-8b3d-3060928e9de2" />
+
+<img width="1416" height="281" alt="Screenshot 2025-08-23 at 20 02 19" src="https://github.com/user-attachments/assets/6ed61acd-7f8f-4e38-975e-8a15d2d65f76" />
+
 
 ## Features
 
