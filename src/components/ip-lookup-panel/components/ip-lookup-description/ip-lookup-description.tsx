@@ -1,6 +1,5 @@
 import { PlusIcon } from "@radix-ui/react-icons";
 import { IP_LOOKUP_CONSTANTS } from "../../ip-lookup-panel.const";
-import { Button } from "@radix-ui/themes";
 import type { IpLookupDescriptionProps } from "../../ip-lookup-panel.type";
 
 export const IpLookupDescription = ({
@@ -11,17 +10,18 @@ export const IpLookupDescription = ({
       <p className="text-[18px] text-[#363636] text-left">
         {IP_LOOKUP_CONSTANTS.DESCRIPTION}
       </p>
-      <Button
+      <button
+        className="px-[12px] rounded-sm bg-blue-700 text-white hover:bg-blue-800"
         type="button"
         data-testid="add-row-button"
         onClick={handleAdd}
-        variant="solid"
-        size="2"
         style={{ cursor: "pointer" }}
       >
-        <PlusIcon />
-        {IP_LOOKUP_CONSTANTS.ADD_BUTTON_TEXT}
-      </Button>
+        <span className="flex flex-row items-center gap-[8px] min-h-[32px] text-[14px]">
+          <PlusIcon />
+          {IP_LOOKUP_CONSTANTS.ADD_BUTTON_TEXT}
+        </span>
+      </button>
     </div>
   );
 };

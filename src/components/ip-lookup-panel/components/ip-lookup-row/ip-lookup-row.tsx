@@ -1,4 +1,4 @@
-import { IconButton, TextField, Tooltip } from "@radix-ui/themes";
+import { TextField, Tooltip } from "@radix-ui/themes";
 import { RowStatus } from "../../../../utils/utils";
 import { IpLookupRowStatus } from "../ip-lookup-row-status/ip-lookup-row-status";
 import { Cross2Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
@@ -19,17 +19,16 @@ export const IpLookupRow = ({
       className="flex flex-row justify-center items-center gap-[12px] w-full transition-all duration-300 ease-in-out hover:bg-neutral-200 rounded-md px-[4px] py-[8px]"
     >
       <Tooltip content={IP_LOOKUP_CONSTANTS.TOOLTIP_REMOVE_ROW}>
-        <IconButton
-          data-testid="remove-row-button"
+        <button
+          className="cursor-pointer rounded-full text-(--accent-a11) bg-(--accent-a3) hover:bg-(--accent-a4)"
           type="button"
-          variant="soft"
-          radius="full"
-          size="2"
+          data-testid="remove-row-button"
           onClick={() => handleRemove(row.id)}
-          style={{ cursor: "pointer" }}
         >
-          <Cross2Icon />
-        </IconButton>
+          <span className="flex flex-row items-center justify-center h-[32px] w-[32px]">
+            <Cross2Icon />
+          </span>
+        </button>
       </Tooltip>
 
       <div className="flex items-center justify-center w-[32px] h-[32px] p-[12px] rounded-full text-(--accent-a11) bg-(--accent-a3)">
