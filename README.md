@@ -5,7 +5,6 @@ A React-based application for looking up geographical information of IP addresse
 
 <img width="1416" height="281" alt="Screenshot 2025-08-23 at 20 02 19" src="https://github.com/user-attachments/assets/6ed61acd-7f8f-4e38-975e-8a15d2d65f76" />
 
-
 ## Features
 
 - Look up multiple IP addresses simultaneously
@@ -53,6 +52,26 @@ Preview the production build locally:
 ```bash
 npm run preview
 ```
+
+### Testing
+
+Run the test suite:
+
+```bash
+npm run test
+```
+
+Run tests in watch mode (automatically re-runs tests when files change):
+
+```bash
+npm run test:watch
+```
+
+The project includes comprehensive unit tests for components and hooks using:
+
+- **Vitest** - Fast test runner
+- **Testing Library** - Component testing utilities
+- **Jest DOM** - Custom Jest matchers for DOM elements
 
 ## How to Use
 
