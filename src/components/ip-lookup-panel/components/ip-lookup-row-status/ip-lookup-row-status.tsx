@@ -14,7 +14,7 @@ export const IpLookupRowStatus = ({ row }: IpLookupRowStatusProps) => {
         <div className="flex flex-row items-center gap-[12px]">
           <Tooltip content={row.country}>
             <img
-              className="w-[32px] h-[32px]"
+              className="w-[40px] h-[24px]"
               src={row.flag}
               alt={row.country}
             />
