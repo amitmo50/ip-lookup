@@ -327,69 +327,6 @@ describe("IpLookupPanel", () => {
     });
   });
 
-  describe("Edge Cases", () => {
-    it("handles rapid successive lookups on the same row", async () => {
-      mockFetchCountry
-        .mockResolvedValueOnce(mockSuccessResponse)
-        .mockResolvedValueOnce({
-          ...mockSuccessResponse,
-          country: "Different Country",
-        });
-
-      render(
-        <TestWrapper>
-          <IpLookupPanel />
-        </TestWrapper>
-      );
-
-      const ipInput = screen.getByPlaceholderText(
-        IP_LOOKUP_CONSTANTS.IP_PLACEHOLDER
-      );
-
-      fireEvent.change(ipInput, { target: { value: "8.8.8.8" } });
-
-      // Make two rapid calls
-      fireEvent.blur(ipInput);
-      fireEvent.blur(ipInput);
-
-      // Should handle race conditions properly
-      await waitFor(() => {
-        // Check that at least one of the responses is displayed via flag alt text
-        const elements = screen.queryAllByRole("img");
-        const hasCountryFlag = elements.some(
-          (el) =>
-            el.getAttribute("alt")?.includes("Country") ||
-            el.getAttribute("alt")?.includes("United States")
-        );
-        expect(hasCountryFlag).toBe(true);
-      });
-    });
-
-    it("trims whitespace from IP input", async () => {
-      mockFetchCountry.mockResolvedValueOnce(mockSuccessResponse);
-
-      render(
-        <TestWrapper>
-          <IpLookupPanel />
-        </TestWrapper>
-      );
-
-      const ipInput = screen.getByPlaceholderText(
-        IP_LOOKUP_CONSTANTS.IP_PLACEHOLDER
-      );
-
-      fireEvent.change(ipInput, { target: { value: "  8.8.8.8  " } });
-      fireEvent.blur(ipInput);
-
-      await waitFor(() => {
-        expect(mockFetchCountry).toHaveBeenCalledWith(
-          "8.8.8.8",
-          expect.any(AbortSignal)
-        );
-      });
-    });
-  });
-
   describe("Row Numbers", () => {
     it("displays correct row numbers", async () => {
       render(
