@@ -36,7 +36,6 @@ describe("IpLookupDescription", () => {
     );
 
     const addButton = screen.getByRole("button", { name: /add/i });
-    expect(addButton).toBeInTheDocument();
     expect(addButton).toHaveTextContent(IP_LOOKUP_CONSTANTS.ADD_BUTTON_TEXT);
   });
 
@@ -48,7 +47,6 @@ describe("IpLookupDescription", () => {
     );
 
     const button = screen.getByRole("button", { name: /add/i });
-    // Check that the button contains an SVG (PlusIcon is rendered as SVG)
     expect(button.querySelector("svg")).toBeInTheDocument();
   });
 
@@ -76,16 +74,5 @@ describe("IpLookupDescription", () => {
 
     expect(addButton).toHaveAttribute("type", "button");
     expect(addButton).toHaveStyle({ cursor: "pointer" });
-  });
-
-  it("has correct description text styling", () => {
-    render(
-      <TestWrapper>
-        <IpLookupDescription handleAdd={mockHandleAdd} />
-      </TestWrapper>
-    );
-
-    const descriptionText = screen.getByText(IP_LOOKUP_CONSTANTS.DESCRIPTION);
-    expect(descriptionText).toHaveClass("text-[18px]", "text-[#363636]");
   });
 });

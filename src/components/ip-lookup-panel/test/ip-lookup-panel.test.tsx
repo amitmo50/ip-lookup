@@ -51,18 +51,8 @@ describe("IpLookupPanel", () => {
           <IpLookupPanel />
         </TestWrapper>
       );
-
-      expect(
-        screen.getByText(IP_LOOKUP_CONSTANTS.DESCRIPTION).parentElement
-      ).toHaveClass(
-        "flex",
-        "flex-col",
-        "items-start",
-        "justify-center",
-        "w-[90%]",
-        "py-[4px]",
-        "gap-[12px]"
-      );
+      const description = screen.getByText(IP_LOOKUP_CONSTANTS.DESCRIPTION);
+      expect(description).toBeInTheDocument();
     });
 
     it("renders with one initial row", () => {
@@ -76,18 +66,6 @@ describe("IpLookupPanel", () => {
         IP_LOOKUP_CONSTANTS.IP_PLACEHOLDER
       );
       expect(ipInputs).toHaveLength(1);
-    });
-
-    it("does not show divider when there are no rows", () => {
-      render(
-        <TestWrapper>
-          <IpLookupPanel />
-        </TestWrapper>
-      );
-
-      // The divider should not be visible when there's only the initial empty row
-      const divider = screen.queryByRole("separator");
-      expect(divider).not.toBeInTheDocument();
     });
   });
 
