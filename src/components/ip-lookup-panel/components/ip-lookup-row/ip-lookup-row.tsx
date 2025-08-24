@@ -1,4 +1,4 @@
-import { TextField, Tooltip } from "@radix-ui/themes";
+import { Tooltip } from "@radix-ui/themes";
 import { RowStatus } from "../../../../utils/utils";
 import { IpLookupRowStatus } from "../ip-lookup-row-status/ip-lookup-row-status";
 import { Cross2Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
@@ -36,20 +36,20 @@ export const IpLookupRow = ({
       </div>
       <div className="flex flex-row items-center justify-start gap-[12px] w-full">
         {/* IP input */}
-        <TextField.Root
-          size="3"
-          className="w-[80%]"
-          placeholder={IP_LOOKUP_CONSTANTS.IP_PLACEHOLDER}
-          value={row.ip}
-          onChange={(e) => updateRow(row.id, { ip: e.target.value })}
-          onBlur={() => startLookup(row)}
-          onKeyDown={handleKeydown}
-          disabled={row.status === RowStatus.LOADING}
-        >
-          <TextField.Slot>
-            <MagnifyingGlassIcon height="16" width="16" />
-          </TextField.Slot>
-        </TextField.Root>
+        <div className="flex flex-row items-center justify-start gap-[8px] border border-neutral-300 rounded-md p-[6px] w-[80%] bg-white focus-within:border-blue-500">
+          <MagnifyingGlassIcon height="16" width="16" />
+          <input
+            type="text"
+            className="outline-none w-full"
+            data-testid="ip-input"
+            placeholder={IP_LOOKUP_CONSTANTS.IP_PLACEHOLDER}
+            value={row.ip}
+            onChange={(e) => updateRow(row.id, { ip: e.target.value })}
+            onBlur={() => startLookup(row)}
+            onKeyDown={handleKeydown}
+            disabled={row.status === RowStatus.LOADING}
+          />
+        </div>
 
         {/* Status / result */}
         <IpLookupRowStatus row={row} />

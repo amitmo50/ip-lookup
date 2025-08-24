@@ -48,6 +48,7 @@ export const useIpLookup = () => {
     []
   );
 
+  // Fetch country by IP
   const fetchCountryByIp = useCallback(
     async (
       ip: string,
@@ -132,6 +133,8 @@ export const useIpLookup = () => {
     },
     [updateRow, fetchCountryByIp]
   );
+
+  // Scroll to the bottom of the list
   useEffect(() => {
     refListElement.current?.scrollTo({
       top: refListElement.current?.scrollHeight,
