@@ -20,6 +20,7 @@ export const IpLookupRow = ({
     >
       <Tooltip content={IP_LOOKUP_CONSTANTS.TOOLTIP_REMOVE_ROW}>
         <IconButton
+          data-testid="remove-row-button"
           type="button"
           variant="soft"
           radius="full"

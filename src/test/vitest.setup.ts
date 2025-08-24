@@ -23,3 +23,12 @@ Object.defineProperty(window, "matchMedia", {
     dispatchEvent: vi.fn(),
   })),
 });
+
+// Mock scrollTo for window
+Object.defineProperty(global, "scrollTo", {
+  value: vi.fn(),
+  writable: true,
+});
+
+// Mock scrollTo for HTMLElement
+HTMLElement.prototype.scrollTo = vi.fn();

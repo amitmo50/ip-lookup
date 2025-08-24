@@ -86,6 +86,6 @@ describe("IpLookupDescription", () => {
     );
 
     const descriptionText = screen.getByText(IP_LOOKUP_CONSTANTS.DESCRIPTION);
-    expect(descriptionText).toHaveClass("text-[16px]", "text-[#363636]");
+    expect(descriptionText).toHaveClass("text-[18px]", "text-[#363636]");
   });
 });

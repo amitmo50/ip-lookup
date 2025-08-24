@@ -5,7 +5,10 @@ import type { IpLookupRowStatusProps } from "../../ip-lookup-panel.type";
 
 export const IpLookupRowStatus = ({ row }: IpLookupRowStatusProps) => {
   return (
-    <div className="h-[24px] text-sm flex items-center gap-[12px]">
+    <div
+      className="h-[24px] text-sm flex items-center gap-[12px]"
+      data-testid="row-status"
+    >
       {row.status === RowStatus.LOADING && <LoadingSpinner />}
       {row.status === RowStatus.OK && (
         <div className="flex flex-row items-center gap-[12px]">

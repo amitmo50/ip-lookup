@@ -13,6 +13,7 @@ export const IpLookupDescription = ({
       </p>
       <Button
         type="button"
+        data-testid="add-row-button"
         onClick={handleAdd}
         variant="solid"
         size="2"
